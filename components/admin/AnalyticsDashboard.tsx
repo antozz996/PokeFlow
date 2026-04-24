@@ -127,8 +127,17 @@ export default function AnalyticsDashboard() {
               <h3 className="font-display text-lg text-wood-dark mb-4">Performance</h3>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8">
                 <div className="flex items-center gap-4">
-                  <div className="w-24 h-24 rounded-full border-8 border-cream-dark flex items-center justify-center relative shrink-0">
-                    <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                  <div className="w-24 h-24 flex items-center justify-center relative shrink-0">
+                    <svg className="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 96 96">
+                      <circle
+                        cx="48"
+                        cy="48"
+                        r="40"
+                        stroke="currentColor"
+                        strokeWidth="8"
+                        fill="transparent"
+                        className="text-cream-dark"
+                      />
                       <circle
                         cx="48"
                         cy="48"
@@ -138,6 +147,7 @@ export default function AnalyticsDashboard() {
                         fill="transparent"
                         className="text-status-ready"
                         strokeDasharray={`${(completionRate / 100) * 251} 251`}
+                        strokeLinecap="round"
                       />
                     </svg>
                     <span className="font-bold text-xl text-wood-dark">{completionRate}%</span>
