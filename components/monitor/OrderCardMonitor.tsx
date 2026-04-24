@@ -7,10 +7,9 @@ import type { Order } from "@/types";
 
 interface Props {
   order: Order;
-  isReady: boolean;
 }
 
-export default function OrderCardMonitor({ order, isReady }: Props) {
+export default function OrderCardMonitor({ order }: Props) {
   const getCardStyle = (status: number) => {
     switch(status) {
       case 0: return "bg-status-preso border-status-preso/40";

@@ -57,7 +57,6 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
               <OrderCardMonitor
                 key={order.id}
                 order={order}
-                isReady={false}
               />
             ))}
           </div>
@@ -82,7 +81,6 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
               <OrderCardMonitor
                 key={order.id}
                 order={order}
-                isReady={true}
               />
             ))}
           </div>
