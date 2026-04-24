@@ -7,9 +7,10 @@ import type { Order } from "@/types";
 
 interface Props {
   order: Order;
+  compactLevel?: number; // 0 = normal, 1 = medium, 2 = small
 }
 
-export default function OrderCardMonitor({ order }: Props) {
+export default function OrderCardMonitor({ order, compactLevel = 0 }: Props) {
   const getCardStyle = (status: number) => {
     switch(status) {
       case 0: return "bg-status-preso border-status-preso/40";
@@ -19,10 +20,16 @@ export default function OrderCardMonitor({ order }: Props) {
     }
   };
 
+  const paddingClass = compactLevel === 2 ? "p-3" : compactLevel === 1 ? "p-4" : "p-5";
+  const numSizeClass = compactLevel === 2 ? "text-4xl" : compactLevel === 1 ? "text-5xl" : "text-monitor-num";
+  const nameSizeClass = compactLevel === 2 ? "text-lg mt-1" : compactLevel === 1 ? "text-xl mt-1" : "text-monitor-name mt-2";
+  const badgeScale = compactLevel === 2 ? "scale-75 origin-top-right" : compactLevel === 1 ? "scale-90 origin-top-right" : "";
+
   return (
     <div
       className={cn(
-        "rounded-2xl p-5 border shadow-xl transition-all duration-300 animate-fade-in relative overflow-hidden",
+        "rounded-2xl border shadow-xl transition-all duration-300 animate-fade-in relative overflow-hidden",
+        paddingClass,
         getCardStyle(order.status)
       )}
     >
@@ -31,14 +38,14 @@ export default function OrderCardMonitor({ order }: Props) {
       
       <div className="flex items-start justify-between relative z-10">
         <div>
-          <p className="font-display text-monitor-num leading-none text-white drop-shadow-sm">
+          <p className={cn("font-display leading-none text-white drop-shadow-sm", numSizeClass)}>
             #{order.order_num}
           </p>
-          <p className="font-body text-monitor-name font-medium mt-2 text-white/95">
+          <p className={cn("font-body font-medium text-white/95", nameSizeClass)}>
             {order.customer_name}
           </p>
         </div>
-        <div className="mt-1">
+        <div className={cn("mt-1", badgeScale)}>
           {order.status === 2 && (
             <span className="text-xs font-bold tracking-widest text-white/95 uppercase bg-white/20 backdrop-blur-sm border border-white/10 rounded-full px-4 py-1.5 shadow-sm">
               ✓ RITIRA
@@ -56,8 +63,8 @@ export default function OrderCardMonitor({ order }: Props) {
           )}
         </div>
       </div>
-      {order.notes && (
-        <p className="text-sm text-white/60 mt-2 font-body italic">
+      {order.notes && compactLevel < 2 && (
+        <p className={cn("text-white/60 font-body italic", compactLevel === 1 ? "text-xs mt-1" : "text-sm mt-2")}>
           {order.notes}
         </p>
       )}

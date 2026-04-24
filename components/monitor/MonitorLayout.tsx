@@ -23,7 +23,18 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
   const pronti = displayOrders.filter((o) => o.status === 2);
   // Status 0 (preso in carico) va nella colonna sinistra
   const presiInCarico = displayOrders.filter((o) => o.status === 0);
-  const leftColumn = [...presiInCarico, ...inPreparazione];
+  
+  // Ordini in preparazione in alto, poi quelli presi in carico in basso
+  const leftColumn = [...inPreparazione, ...presiInCarico];
+
+  const getCompactLevel = (count: number) => {
+    if (count <= 4) return 0;
+    if (count <= 6) return 1;
+    return 2;
+  };
+
+  const leftCompactLevel = getCompactLevel(leftColumn.length);
+  const rightCompactLevel = getCompactLevel(pronti.length);
 
   return (
     <div className="monitor-fullscreen bg-brand-dark flex flex-col">
@@ -45,7 +56,7 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
               ⏳ In Coda / Preparazione
             </p>
           </div>
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scroll">
+          <div className={`flex-1 overflow-y-auto p-4 custom-scroll ${leftCompactLevel > 0 ? "space-y-2" : "space-y-4"}`}>
             {leftColumn.length === 0 && (
               <div className="flex items-center justify-center h-full">
                 <p className="text-white/20 font-body text-lg">
@@ -57,6 +68,7 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
               <OrderCardMonitor
                 key={order.id}
                 order={order}
+                compactLevel={leftCompactLevel}
               />
             ))}
           </div>
@@ -69,7 +81,7 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
               ✓ Pronto — Ritira Ora!
             </p>
           </div>
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scroll">
+          <div className={`flex-1 overflow-y-auto p-4 custom-scroll ${rightCompactLevel > 0 ? "space-y-2" : "space-y-4"}`}>
             {pronti.length === 0 && (
               <div className="flex items-center justify-center h-full">
                 <p className="text-white/20 font-body text-lg">
@@ -81,6 +93,7 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
               <OrderCardMonitor
                 key={order.id}
                 order={order}
+                compactLevel={rightCompactLevel}
               />
             ))}
           </div>
