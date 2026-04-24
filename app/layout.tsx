@@ -16,8 +16,8 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "PokeFlow",
-  description: "Sistema gestione ordini per Poke Shop",
+  title: "Naturale Beach Club",
+  description: "Sistema gestione ordini Naturale Beach Club",
   manifest: "/manifest.json",
 };
 

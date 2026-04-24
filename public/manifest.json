@@ -1,7 +1,7 @@
 {
-  "name": "PokeFlow",
-  "short_name": "PokeFlow",
-  "description": "Gestione ordini Poke Shop",
+  "name": "Naturale Beach Club",
+  "short_name": "Naturale",
+  "description": "Gestione ordini Naturale",
   "start_url": "/admin",
   "display": "standalone",
   "background_color": "#3B2314",

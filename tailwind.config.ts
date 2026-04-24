@@ -22,11 +22,12 @@ const config: Config = {
           prep: "#2563EB",  // blue  — in preparazione
           ready: "#16A34A",  // green — pronto/ritira
         },
-        // ── Verde brand ───────────────────────────────
-        poke: {
-          DEFAULT: "#5A9160",
-          light: "#7BAE7F",
-          dark: "#3D6644",
+        // ── Brand Naturale ───────────────────────────────
+        brand: {
+          DEFAULT: "#1A1A1A", // Quasi nero per bottoni ed elementi principali
+          light: "#333333",   // Grigio scuro per hover
+          dark: "#000000",    // Nero assoluto
+          accent: "#C8A882",  // Oro/Sabbia (uguale a wood.pale) per dettagli
         },
       },
       fontFamily: {

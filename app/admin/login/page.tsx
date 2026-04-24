@@ -54,7 +54,7 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-white border border-wood-pale/50 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-poke focus:ring-1 focus:ring-poke transition-shadow"
+              className="w-full bg-white border border-wood-pale/50 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-shadow"
               required
               disabled={loading}
             />
@@ -68,7 +68,7 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-white border border-wood-pale/50 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-poke focus:ring-1 focus:ring-poke transition-shadow"
+              className="w-full bg-white border border-wood-pale/50 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-shadow"
               required
               disabled={loading}
             />
@@ -85,7 +85,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-poke hover:bg-poke-dark text-white rounded-xl py-3 font-bold transition-colors disabled:opacity-50 mt-2"
+            className="w-full bg-brand hover:bg-brand-light text-white rounded-xl py-3 font-bold transition-colors disabled:opacity-50 mt-2"
           >
             {loading ? "Accesso in corso..." : "Accedi"}
           </button>

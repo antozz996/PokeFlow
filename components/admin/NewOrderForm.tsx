@@ -61,7 +61,7 @@ export default function NewOrderForm() {
             value={orderNum}
             onChange={(e) => setOrderNum(e.target.value)}
             placeholder="N°"
-            className="w-16 bg-white border border-wood-pale/50 rounded-lg px-3 py-2 text-sm font-body font-bold text-wood-dark focus:outline-none focus:border-poke focus:ring-1 focus:ring-poke transition-shadow"
+            className="w-16 bg-white border border-wood-pale/50 rounded-lg px-3 py-2 text-sm font-body font-bold text-wood-dark focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-shadow"
             disabled={loading}
           />
         </div>
@@ -71,14 +71,14 @@ export default function NewOrderForm() {
           value={customerName}
           onChange={(e) => setCustomerName(e.target.value)}
           placeholder="Nome cliente..."
-          className="flex-1 bg-white border border-wood-pale/50 rounded-lg px-3 py-2 text-sm font-body text-wood-dark focus:outline-none focus:border-poke focus:ring-1 focus:ring-poke transition-shadow"
+          className="flex-1 bg-white border border-wood-pale/50 rounded-lg px-3 py-2 text-sm font-body text-wood-dark focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-shadow"
           disabled={loading}
         />
 
         <button
           type="submit"
           disabled={loading || !orderNum || !customerName.trim()}
-          className="bg-poke hover:bg-poke-dark text-white rounded-lg px-4 py-2 text-sm font-bold flex items-center gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+          className="bg-brand hover:bg-brand-light text-white rounded-lg px-4 py-2 text-sm font-bold flex items-center gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span className="hidden sm:inline">Add</span>

@@ -24,7 +24,7 @@ export default function AdminPage() {
       <header className="bg-wood-dark sticky top-0 z-50 h-14 px-4 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <Logo size="sm" />
-          <span className="bg-poke/20 border border-poke/40 text-poke-light text-[10px] font-bold tracking-widest px-2 py-0.5 rounded uppercase hidden sm:inline-block">
+          <span className="bg-brand/10 border border-brand/20 text-brand-accent text-[10px] font-bold tracking-widest px-2 py-0.5 rounded uppercase hidden sm:inline-block">
             Operatore
           </span>
         </div>

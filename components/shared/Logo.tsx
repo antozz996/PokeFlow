@@ -24,8 +24,8 @@ export default function Logo({ size = "md", className }: LogoProps) {
         className
       )}
     >
-      <span className="text-poke-light">Poke</span>
-      <span className="text-cream">Flow</span>
+      <span className="text-brand-accent">NATURALE</span>
+      <span className="text-cream opacity-50 ml-2 text-sm font-body tracking-wider uppercase hidden sm:inline-block">Beach Club</span>
     </span>
   );
 }
