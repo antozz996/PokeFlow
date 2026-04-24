@@ -25,8 +25,10 @@ export default function LoginPage() {
       }
       await signIn(email, password);
       console.log("Login successful, forcing hard redirect...");
-      // Forziamo un ricaricamento totale per assicurarci che il middleware veda i cookie
-      window.location.href = "/admin";
+      // Attendiamo un istante per assicurarci che il cookie sia registrato
+      setTimeout(() => {
+        window.location.href = "/admin";
+      }, 500);
     } catch (err: any) {
       console.error("Login error:", err);
       setError(err.message || "Credenziali non valide.");

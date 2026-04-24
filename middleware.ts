@@ -37,12 +37,26 @@ export async function middleware(request: NextRequest) {
     !request.nextUrl.pathname.startsWith("/admin/login") &&
     !user
   ) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin/login";
+    const redirectResponse = NextResponse.redirect(url);
+    // Preserva i cookie eventualmente aggiornati dal middleware
+    supabaseResponse.cookies.getAll().forEach((c) => {
+      redirectResponse.cookies.set(c.name, c.value, { ...c } as any);
+    });
+    return redirectResponse;
   }
 
   // Se già loggato e va su /admin/login, redirect ad /admin
   if (request.nextUrl.pathname === "/admin/login" && user) {
-    return NextResponse.redirect(new URL("/admin", request.url));
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin";
+    const redirectResponse = NextResponse.redirect(url);
+    // Preserva i cookie eventualmente aggiornati dal middleware
+    supabaseResponse.cookies.getAll().forEach((c) => {
+      redirectResponse.cookies.set(c.name, c.value, { ...c } as any);
+    });
+    return redirectResponse;
   }
 
   return supabaseResponse;
