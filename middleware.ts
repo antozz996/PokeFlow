@@ -1,4 +1,6 @@
-// middleware.ts — Protezione rotte admin
+// middleware.ts — Refresh token per Supabase SSR
+// La protezione delle rotte è gestita client-side per evitare
+// problemi di sincronizzazione cookie tra browser e server.
 
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
@@ -13,12 +15,10 @@ export async function middleware(request: NextRequest) {
       cookies: {
         getAll: () => request.cookies.getAll(),
         setAll: (cookiesToSet: { name: string; value: string; options: any }[]) => {
-          cookiesToSet.forEach(({ name, value, options }) => {
+          cookiesToSet.forEach(({ name, value }) => {
             request.cookies.set(name, value);
           });
-          supabaseResponse = NextResponse.next({
-            request,
-          });
+          supabaseResponse = NextResponse.next({ request });
           cookiesToSet.forEach(({ name, value, options }) => {
             supabaseResponse.cookies.set(name, value, options);
           });
@@ -27,37 +27,8 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  // Proteggi /admin (tranne /admin/login)
-  if (
-    request.nextUrl.pathname.startsWith("/admin") &&
-    !request.nextUrl.pathname.startsWith("/admin/login") &&
-    !user
-  ) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin/login";
-    const redirectResponse = NextResponse.redirect(url);
-    // Preserva i cookie eventualmente aggiornati dal middleware
-    supabaseResponse.cookies.getAll().forEach((c) => {
-      redirectResponse.cookies.set(c.name, c.value, { ...c } as any);
-    });
-    return redirectResponse;
-  }
-
-  // Se già loggato e va su /admin/login, redirect ad /admin
-  if (request.nextUrl.pathname === "/admin/login" && user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin";
-    const redirectResponse = NextResponse.redirect(url);
-    // Preserva i cookie eventualmente aggiornati dal middleware
-    supabaseResponse.cookies.getAll().forEach((c) => {
-      redirectResponse.cookies.set(c.name, c.value, { ...c } as any);
-    });
-    return redirectResponse;
-  }
+  // Mantieni la sessione aggiornata (refresh token)
+  await supabase.auth.getUser();
 
   return supabaseResponse;
 }
