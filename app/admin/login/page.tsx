@@ -26,8 +26,9 @@ export default function LoginPage() {
         throw new Error("Configurazione Supabase mancante. Verifica le variabili d'ambiente su Vercel e fai il Redeploy.");
       }
       await signIn(email, password);
-      console.log("Login successful, redirecting...");
-      router.push("/admin");
+      console.log("Login successful, forcing hard redirect...");
+      // Forziamo un ricaricamento totale per assicurarci che il middleware veda i cookie
+      window.location.href = "/admin";
     } catch (err: any) {
       console.error("Login error:", err);
       setError(err.message || "Credenziali non valide.");
