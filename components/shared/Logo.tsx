@@ -11,21 +11,18 @@ interface LogoProps {
 
 export default function Logo({ size = "md", className }: LogoProps) {
   const sizeClasses = {
-    sm: "text-xl",
-    md: "text-2xl",
-    lg: "text-3xl",
+    sm: "h-6",
+    md: "h-8",
+    lg: "h-20", // Più grande per la pagina di login
   };
 
   return (
-    <span
-      className={cn(
-        "font-display tracking-tight select-none",
-        sizeClasses[size],
-        className
-      )}
-    >
-      <span className="text-brand-accent">NATURALE</span>
-      <span className="text-cream opacity-50 ml-2 text-sm font-body tracking-wider uppercase hidden sm:inline-block">Beach Club</span>
-    </span>
+    <div className={cn("flex items-center justify-center", className)}>
+      <img 
+        src="/icon-512.png" 
+        alt="Naturale Beach Club Logo" 
+        className={cn("object-contain", sizeClasses[size])}
+      />
+    </div>
   );
 }
