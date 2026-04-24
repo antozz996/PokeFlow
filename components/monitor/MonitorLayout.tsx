@@ -45,7 +45,7 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
               ⏳ In Preparazione
             </p>
           </div>
-          <div className="flex-1 overflow-y-auto p-3 space-y-0 custom-scroll">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scroll">
             {leftColumn.length === 0 && (
               <div className="flex items-center justify-center h-full">
                 <p className="text-white/20 font-body text-lg">
@@ -70,7 +70,7 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
               ✓ Pronto — Ritira Ora!
             </p>
           </div>
-          <div className="flex-1 overflow-y-auto p-3 space-y-0 custom-scroll">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scroll">
             {pronti.length === 0 && (
               <div className="flex items-center justify-center h-full">
                 <p className="text-white/20 font-body text-lg">
