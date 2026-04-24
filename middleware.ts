@@ -27,7 +27,6 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  /*
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -45,7 +44,6 @@ export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname === "/admin/login" && user) {
     return NextResponse.redirect(new URL("/admin", request.url));
   }
-  */
 
   return supabaseResponse;
 }

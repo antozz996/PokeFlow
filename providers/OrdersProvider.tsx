@@ -2,6 +2,7 @@
 
 import React, { createContext, useEffect, useState, useCallback, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { playNotificationSound } from "@/lib/audio";
 import type { Order, NewOrderInput } from "@/types";
 
 interface OrdersContextType {
@@ -41,6 +42,8 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
         { event: "*", schema: "public", table: "orders" },
         (payload: any) => {
           if (payload.eventType === "INSERT") {
+            // Play notification sound on new order
+            playNotificationSound();
             setOrders((prev) => [...prev, payload.new as Order]);
           }
           if (payload.eventType === "UPDATE") {
