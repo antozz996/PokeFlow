@@ -87,8 +87,8 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
             ))}
           </div>
 
-          {/* QR Code — angolo in basso a destra */}
-          <div className="absolute bottom-4 right-4 opacity-60 hover:opacity-100 transition-opacity">
+          {/* QR Code — angolo in basso a destra (nascosto su mobile) */}
+          <div className="hidden md:block absolute bottom-4 right-4 opacity-60 hover:opacity-100 transition-opacity">
             <QRCode />
           </div>
         </div>
