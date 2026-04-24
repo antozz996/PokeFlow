@@ -52,8 +52,12 @@ export function useOrders() {
             );
           }
         }
-      )
-      .subscribe();
+      );
+
+    channel.subscribe((status) => {
+      if (status === 'CLOSED') return;
+      if (status === 'SUBSCRIBED') console.log('Connected to Realtime');
+    });
 
     return () => {
       supabase.removeChannel(channel);

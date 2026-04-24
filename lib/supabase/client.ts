@@ -1,9 +1,15 @@
-// lib/supabase/client.ts — uso nei componenti browser
+// lib/supabase/client.ts
 import { createBrowserClient } from "@supabase/ssr";
 
+let client: any;
+
 export function createClient() {
-  return createBrowserClient(
+  if (client) return client;
+
+  client = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
+
+  return client;
 }
