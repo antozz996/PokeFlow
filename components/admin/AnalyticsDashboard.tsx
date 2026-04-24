@@ -46,13 +46,24 @@ export default function AnalyticsDashboard() {
   }, [period]);
 
   const totalOrders = orders.length;
-  const completedOrders = orders.filter((o) => o.status === 3).length;
+  const completedOrdersList = orders.filter((o) => o.status === 3);
+  const completedOrders = completedOrdersList.length;
   const activeOrders = orders.filter((o) => o.status >= 0 && o.status <= 2).length;
   const cancelledOrders = orders.filter((o) => o.status === 4).length;
 
   const completionRate = totalOrders > 0 
     ? Math.round((completedOrders / totalOrders) * 100) 
     : 0;
+
+  let averageTimeMinutes = 0;
+  if (completedOrders > 0) {
+    const totalTimeMs = completedOrdersList.reduce((acc, order) => {
+      const created = new Date(order.created_at).getTime();
+      const updated = new Date(order.updated_at).getTime();
+      return acc + (updated - created);
+    }, 0);
+    averageTimeMinutes = Math.round((totalTimeMs / completedOrders) / 60000);
+  }
 
   return (
     <div className="p-4 sm:p-6 overflow-y-auto custom-scroll flex-1 bg-cream">
@@ -114,27 +125,41 @@ export default function AnalyticsDashboard() {
             {/* Riepilogo Avanzato */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-wood-pale/30">
               <h3 className="font-display text-lg text-wood-dark mb-4">Performance</h3>
-              <div className="flex items-center gap-4">
-                <div className="w-24 h-24 rounded-full border-8 border-cream-dark flex items-center justify-center relative">
-                  <svg className="absolute inset-0 w-full h-full transform -rotate-90">
-                    <circle
-                      cx="48"
-                      cy="48"
-                      r="40"
-                      stroke="currentColor"
-                      strokeWidth="8"
-                      fill="transparent"
-                      className="text-status-ready"
-                      strokeDasharray={`${(completionRate / 100) * 251} 251`}
-                    />
-                  </svg>
-                  <span className="font-bold text-xl text-wood-dark">{completionRate}%</span>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8">
+                <div className="flex items-center gap-4">
+                  <div className="w-24 h-24 rounded-full border-8 border-cream-dark flex items-center justify-center relative shrink-0">
+                    <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                      <circle
+                        cx="48"
+                        cy="48"
+                        r="40"
+                        stroke="currentColor"
+                        strokeWidth="8"
+                        fill="transparent"
+                        className="text-status-ready"
+                        strokeDasharray={`${(completionRate / 100) * 251} 251`}
+                      />
+                    </svg>
+                    <span className="font-bold text-xl text-wood-dark">{completionRate}%</span>
+                  </div>
+                  <div>
+                    <p className="text-sm text-wood-med font-body">Tasso di Completamento</p>
+                    <p className="text-xs text-wood-light mt-1 max-w-xs">
+                      Percentuale di ordini portati a termine con successo rispetto al totale ricevuto nel periodo selezionato.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-wood-med font-body">Tasso di Completamento</p>
-                  <p className="text-xs text-wood-light mt-1 max-w-xs">
-                    Percentuale di ordini portati a termine con successo rispetto al totale ricevuto nel periodo selezionato.
-                  </p>
+
+                <div className="hidden sm:block w-px h-20 bg-wood-pale/30"></div>
+
+                <div className="flex items-center gap-4">
+                  <div className="w-24 h-24 rounded-full bg-cream-dark flex items-center justify-center shrink-0">
+                    <Clock className="w-8 h-8 text-wood-med" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-wood-med font-body">Tempo Medio</p>
+                    <p className="font-display text-3xl text-wood-dark mt-1">{averageTimeMinutes} <span className="text-xl font-body">min</span></p>
+                  </div>
                 </div>
               </div>
             </div>
