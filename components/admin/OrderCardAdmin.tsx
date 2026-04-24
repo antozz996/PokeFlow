@@ -37,7 +37,7 @@ export default function OrderCardAdmin({ order, onAdvance, onDelete }: Props) {
       )}
     >
       {/* Header: numero e tempo */}
-      <div className="flex items-center justify-between pr-10">
+      <div className="flex items-center justify-between pr-16">
         <span className="font-display text-xl text-wood-dark">
           #{order.order_num}
         </span>
@@ -47,7 +47,7 @@ export default function OrderCardAdmin({ order, onAdvance, onDelete }: Props) {
       </div>
 
       {/* Nome cliente */}
-      <p className="font-body text-sm font-semibold text-wood-dark truncate pr-10">
+      <p className="font-body text-sm font-semibold text-wood-dark truncate pr-16">
         {order.customer_name}
       </p>
 
@@ -67,15 +67,15 @@ export default function OrderCardAdmin({ order, onAdvance, onDelete }: Props) {
       <button
         onClick={() => onAdvance(order.id, order.status)}
         className={cn(
-          "absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg text-sm font-bold flex items-center justify-center transition-all duration-200",
+          "absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-xl text-sm font-bold flex items-center justify-center transition-all duration-200 active:scale-95",
           buttonStyles[order.status] || "bg-gray-100 text-gray-400"
         )}
         title={order.status === 2 ? "Segna come consegnato" : "Avanza stato"}
       >
         {order.status === 2 ? (
-          <Check className="w-4 h-4" />
+          <Check className="w-6 h-6" />
         ) : (
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-6 h-6" />
         )}
       </button>
 
