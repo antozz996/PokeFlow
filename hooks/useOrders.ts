@@ -32,7 +32,7 @@ export function useOrders() {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "orders" },
-        (payload) => {
+        (payload: any) => {
           if (payload.eventType === "INSERT") {
             setOrders((prev) => [...prev, payload.new as Order]);
           }
