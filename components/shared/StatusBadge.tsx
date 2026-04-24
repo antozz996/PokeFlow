@@ -16,6 +16,7 @@ const badgeStyles: Record<OrderStatus, string> = {
   1: "bg-blue-50 text-status-prep border-status-prep/30",
   2: "bg-green-50 text-status-ready border-status-ready/30",
   3: "bg-wood-pale/20 text-wood-med border-wood-pale/30",
+  4: "bg-red-50 text-red-500 border-red-500/30",
 };
 
 export default function StatusBadge({ status, className }: StatusBadgeProps) {

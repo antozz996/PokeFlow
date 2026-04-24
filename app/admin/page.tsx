@@ -2,16 +2,19 @@
 
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import Logo from "@/components/shared/Logo";
 import KanbanBoard from "@/components/admin/KanbanBoard";
 import NewOrderForm from "@/components/admin/NewOrderForm";
-import { LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
+import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
+import { LogOut, BarChart3, LayoutDashboard } from "lucide-react";
 
 export default function AdminPage() {
   const { signOut } = useAuth();
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState<"orders" | "analytics">("orders");
 
   const handleSignOut = async () => {
     await signOut();
@@ -40,11 +43,43 @@ export default function AdminPage() {
         </button>
       </header>
 
-      {/* Form di inserimento rapido */}
-      <NewOrderForm />
+      {/* Tab Navigation */}
+      <div className="bg-white border-b border-wood-pale/30 flex items-center justify-center gap-8 px-4 shrink-0">
+        <button
+          onClick={() => setActiveTab("orders")}
+          className={`flex items-center gap-2 py-3 px-2 border-b-2 transition-colors font-bold text-sm ${
+            activeTab === "orders"
+              ? "border-brand text-brand"
+              : "border-transparent text-wood-light hover:text-wood-med"
+          }`}
+        >
+          <LayoutDashboard className="w-4 h-4" />
+          Ordini Live
+        </button>
+        <button
+          onClick={() => setActiveTab("analytics")}
+          className={`flex items-center gap-2 py-3 px-2 border-b-2 transition-colors font-bold text-sm ${
+            activeTab === "analytics"
+              ? "border-brand text-brand"
+              : "border-transparent text-wood-light hover:text-wood-med"
+          }`}
+        >
+          <BarChart3 className="w-4 h-4" />
+          Statistiche
+        </button>
+      </div>
 
-      {/* Kanban Board */}
-      <KanbanBoard />
+      {activeTab === "orders" ? (
+        <>
+          {/* Form di inserimento rapido */}
+          <NewOrderForm />
+
+          {/* Kanban Board */}
+          <KanbanBoard />
+        </>
+      ) : (
+        <AnalyticsDashboard />
+      )}
     </div>
   );
 }

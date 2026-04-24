@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Serif_Display, DM_Sans } from "next/font/google";
+import { OrdersProvider } from "@/providers/OrdersProvider";
 import "./globals.css";
 
 const dmSerif = DM_Serif_Display({
@@ -35,7 +36,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="it" className={`${dmSerif.variable} ${dmSans.variable}`}>
-      <body className="font-body bg-cream">{children}</body>
+      <body className="font-body bg-cream">
+        <OrdersProvider>
+          {children}
+        </OrdersProvider>
+      </body>
     </html>
   );
 }
