@@ -1,0 +1,14 @@
+{
+  "name": "PokeFlow",
+  "short_name": "PokeFlow",
+  "description": "Gestione ordini Poke Shop",
+  "start_url": "/admin",
+  "display": "standalone",
+  "background_color": "#3B2314",
+  "theme_color": "#3B2314",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
