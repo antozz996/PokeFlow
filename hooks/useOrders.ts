@@ -39,7 +39,6 @@ export function useOrders() {
           if (payload.eventType === "UPDATE") {
             const updated = payload.new as Order;
             if (updated.status >= 3) {
-              // Rimuovi dalla lista quando consegnato
               setOrders((prev) => prev.filter((o) => o.id !== updated.id));
             } else {
               setOrders((prev) =>
