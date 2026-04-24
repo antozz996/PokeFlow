@@ -26,7 +26,7 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
   const leftColumn = [...presiInCarico, ...inPreparazione];
 
   return (
-    <div className="monitor-fullscreen bg-[#0D1117] flex flex-col">
+    <div className="monitor-fullscreen bg-brand-dark flex flex-col">
       {/* Header */}
       <header className="bg-wood-dark h-16 px-6 flex items-center justify-between shrink-0">
         <Logo size="md" />
@@ -40,8 +40,8 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
       <div className="grid grid-cols-2 flex-1 min-h-0">
         {/* Colonna Sinistra — In Preparazione */}
         <div className="flex flex-col min-h-0 border-r border-white/5">
-          <div className="bg-[#1D4ED8] py-2.5 px-4 shrink-0">
-            <p className="text-monitor-col font-bold uppercase tracking-widest text-white/90 text-center">
+          <div className="bg-[#2A2420] py-2.5 px-4 shrink-0">
+            <p className="text-brand-accent font-bold uppercase tracking-widest text-center">
               ⏳ In Preparazione
             </p>
           </div>
@@ -66,7 +66,7 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
         {/* Colonna Destra — Pronto / RITIRA */}
         <div className="flex flex-col min-h-0 relative">
           <div className="bg-status-ready py-2.5 px-4 shrink-0">
-            <p className="text-monitor-col font-bold uppercase tracking-widest text-white/90 text-center">
+            <p className="text-white font-bold uppercase tracking-widest text-center">
               ✓ Pronto — Ritira Ora!
             </p>
           </div>

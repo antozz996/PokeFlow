@@ -15,10 +15,10 @@ export default function OrderCardMonitor({ order, isReady }: Props) {
     <div
       className={cn(
         "rounded-xl p-4 mb-3 animate-fade-in transition-all duration-300",
-        isReady
-          ? "bg-status-ready animate-ready-pulse"
-          : "bg-[#1E3A5F]"
-      )}
+          isReady
+            ? "bg-status-ready animate-ready-pulse"
+            : "bg-status-prep"
+        )}
     >
       <div className="flex items-start justify-between">
         <div>
@@ -35,7 +35,7 @@ export default function OrderCardMonitor({ order, isReady }: Props) {
               ✓ RITIRA
             </span>
           ) : (
-            <span className="text-xs font-bold tracking-wide text-blue-200/80 uppercase">
+            <span className="text-xs font-bold tracking-wide text-brand-accent uppercase">
               ⏳ IN PREP
             </span>
           )}

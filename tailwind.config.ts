@@ -16,11 +16,11 @@ const config: Config = {
           DEFAULT: "#F7F2EA", // background principale
           dark: "#EDE5D8",   // card bg, footer
         },
-        // ── Colori stati ordine ────────────────────────
+        // ── Colori stati ordine (Eleganti/Naturali) ────────────────────────
         status: {
-          preso: "#D4955A",  // amber — preso in carico
-          prep: "#2563EB",  // blue  — in preparazione
-          ready: "#16A34A",  // green — pronto/ritira
+          preso: "#D4A373",  // warm sand
+          prep: "#8A6A4B",   // muted wood/caramel
+          ready: "#586C4A",  // sage/olive green
         },
         // ── Brand Naturale ───────────────────────────────
         brand: {

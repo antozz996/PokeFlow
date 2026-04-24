@@ -21,9 +21,9 @@ const cardStyles: Record<number, string> = {
 };
 
 const buttonStyles: Record<number, string> = {
-  0: "bg-status-preso/10 text-status-preso hover:bg-status-preso hover:text-white",
-  1: "bg-status-prep/10 text-status-prep hover:bg-status-prep hover:text-white",
-  2: "bg-status-ready/10 text-status-ready hover:bg-status-ready hover:text-white",
+  0: "bg-status-preso text-white shadow-md hover:brightness-110",
+  1: "bg-status-prep text-white shadow-md hover:brightness-110",
+  2: "bg-status-ready text-white shadow-md hover:brightness-110",
 };
 
 export default function OrderCardAdmin({ order, onAdvance, onDelete }: Props) {
@@ -37,7 +37,7 @@ export default function OrderCardAdmin({ order, onAdvance, onDelete }: Props) {
       )}
     >
       {/* Header: numero e tempo */}
-      <div className="flex items-center justify-between pr-16">
+      <div className="flex items-center justify-between pr-20">
         <span className="font-display text-xl text-wood-dark">
           #{order.order_num}
         </span>
@@ -47,7 +47,7 @@ export default function OrderCardAdmin({ order, onAdvance, onDelete }: Props) {
       </div>
 
       {/* Nome cliente */}
-      <p className="font-body text-sm font-semibold text-wood-dark truncate pr-16">
+      <p className="font-body text-sm font-semibold text-wood-dark truncate pr-20">
         {order.customer_name}
       </p>
 
@@ -67,15 +67,15 @@ export default function OrderCardAdmin({ order, onAdvance, onDelete }: Props) {
       <button
         onClick={() => onAdvance(order.id, order.status)}
         className={cn(
-          "absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-xl text-sm font-bold flex items-center justify-center transition-all duration-200 active:scale-95",
+          "absolute right-2 top-1/2 -translate-y-1/2 w-14 h-14 rounded-xl text-sm font-bold flex items-center justify-center transition-all duration-200 active:scale-95",
           buttonStyles[order.status] || "bg-gray-100 text-gray-400"
         )}
         title={order.status === 2 ? "Segna come consegnato" : "Avanza stato"}
       >
         {order.status === 2 ? (
-          <Check className="w-6 h-6" />
+          <Check className="w-8 h-8" />
         ) : (
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-8 h-8" />
         )}
       </button>
 
