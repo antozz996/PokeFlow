@@ -17,13 +17,19 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    console.log("Login attempt started with:", email);
     setError(null);
     setLoading(true);
 
     try {
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        throw new Error("Configurazione Supabase mancante. Verifica le variabili d'ambiente su Vercel e fai il Redeploy.");
+      }
       await signIn(email, password);
+      console.log("Login successful, redirecting...");
       router.push("/admin");
     } catch (err: any) {
+      console.error("Login error:", err);
       setError(err.message || "Credenziali non valide.");
     } finally {
       setLoading(false);
