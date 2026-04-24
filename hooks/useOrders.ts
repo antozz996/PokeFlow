@@ -27,8 +27,10 @@ export function useOrders() {
   useEffect(() => {
     fetchOrders();
 
+    // Creiamo un nome canale univoco per evitare crash causati dal React StrictMode
+    const channelName = `orders-realtime-${Date.now()}-${Math.random()}`;
     const channel = supabase
-      .channel("orders-realtime")
+      .channel(channelName)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "orders" },
