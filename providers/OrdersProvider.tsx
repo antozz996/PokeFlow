@@ -64,10 +64,7 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
         }
       );
 
-    channel.subscribe((status: any) => {
-      if (status === 'CLOSED') return;
-      if (status === 'SUBSCRIBED') console.log('Connected to Realtime (Global Provider)');
-    });
+    channel.subscribe();
 
     return () => {
       supabase.removeChannel(channel);

@@ -2,6 +2,7 @@
 
 "use client";
 
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -10,18 +11,23 @@ interface LogoProps {
 }
 
 export default function Logo({ size = "md", className }: LogoProps) {
-  const sizeClasses = {
-    sm: "h-6",
-    md: "h-8",
-    lg: "h-20", // Più grande per la pagina di login
+  const sizeMap = {
+    sm: { w: 24, h: 24 },
+    md: { w: 32, h: 32 },
+    lg: { w: 80, h: 80 },
   };
+
+  const { w, h } = sizeMap[size];
 
   return (
     <div className={cn("flex items-center justify-center", className)}>
-      <img 
+      <Image 
         src="/icon-512.png" 
         alt="Naturale Beach Club Logo" 
-        className={cn("object-contain", sizeClasses[size])}
+        width={w}
+        height={h}
+        className="object-contain"
+        priority={size === "lg"}
       />
     </div>
   );
