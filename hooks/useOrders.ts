@@ -54,7 +54,7 @@ export function useOrders() {
         }
       );
 
-    channel.subscribe((status) => {
+    channel.subscribe((status: any) => {
       if (status === 'CLOSED') return;
       if (status === 'SUBSCRIBED') console.log('Connected to Realtime');
     });
