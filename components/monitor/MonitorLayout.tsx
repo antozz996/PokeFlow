@@ -97,22 +97,27 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
             </p>
           </div>
           <div className={cn(
-            "flex-1 overflow-y-auto p-6 custom-scroll",
-            !showLeftColumn ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" : (rightCompactLevel > 0 ? "space-y-2" : "space-y-4")
+            "flex-1 overflow-y-auto p-8 custom-scroll",
+            !showLeftColumn 
+              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-start justify-center content-start" 
+              : (rightCompactLevel > 0 ? "space-y-2" : "space-y-4")
           )}>
             {pronti.length === 0 && (
-              <div className={cn("flex items-center justify-center h-full", !showLeftColumn && "col-span-full")}>
-                <p className="text-white/20 font-body text-2xl italic">
+              <div className={cn("flex items-center justify-center h-full", !showLeftColumn && "col-span-full py-20")}>
+                <p className="text-white/20 font-body text-3xl italic tracking-widest uppercase">
                   In attesa di nuove Poke...
                 </p>
               </div>
             )}
             {pronti.map((order) => (
-              <OrderCardMonitor
-                key={order.id}
-                order={order}
-                compactLevel={!showLeftColumn ? 0 : rightCompactLevel}
-              />
+              <div key={order.id} className="flex justify-center">
+                <div className="w-full max-w-[320px]">
+                  <OrderCardMonitor
+                    order={order}
+                    compactLevel={!showLeftColumn ? 0 : rightCompactLevel}
+                  />
+                </div>
+              </div>
             ))}
           </div>
 
