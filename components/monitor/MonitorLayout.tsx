@@ -20,7 +20,7 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
   const displayOrders = orders.length > 0 || !loading ? orders : (initialOrders || []);
 
   const inPreparazione = displayOrders.filter((o) => o.status === 1);
-  const pronti = displayOrders.filter((o) => o.status === 2);
+  const pronti = displayOrders.filter((o) => o.status === 2 || o.status === 3);
   // Status 0 (preso in carico) va nella colonna sinistra
   const presiInCarico = displayOrders.filter((o) => o.status === 0);
   

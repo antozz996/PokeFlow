@@ -20,8 +20,8 @@ export const STATUS_COLORS: Record<OrderStatus, string> = {
 
 export interface Order {
   id: string;
-  order_num: number;
-  customer_name: string;
+  order_num?: number | null;
+  customer_name?: string | null;
   status: OrderStatus;
   notes?: string;
   created_at: string;
@@ -29,7 +29,8 @@ export interface Order {
 }
 
 export interface NewOrderInput {
-  order_num: number;
-  customer_name: string;
+  order_num?: number | null;
+  customer_name?: string | null;
   notes?: string;
+  status?: OrderStatus; // Permette di specificare lo stato iniziale (es: 2 per Simple Mode)
 }

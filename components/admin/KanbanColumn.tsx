@@ -23,8 +23,10 @@ export default function KanbanColumn({
   onDelete,
   headerColorClass,
 }: Props) {
-  // Filtra solo gli ordini per questo stato
-  const columnOrders = orders.filter((o) => o.status === status);
+  // Filtra solo gli ordini per questo stato (includi lo stato 3 nella colonna "Ritira" per l'animazione)
+  const columnOrders = orders.filter((o) => 
+    o.status === status || (status === 2 && o.status === 3)
+  );
 
   return (
     <div className="flex flex-col min-h-0 border-r border-wood-pale/30 last:border-r-0">

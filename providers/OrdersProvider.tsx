@@ -8,6 +8,8 @@ import type { Order, NewOrderInput } from "@/types";
 interface OrdersContextType {
   orders: Order[];
   loading: boolean;
+  isAdvancedMode: boolean;
+  setAdvancedMode: (val: boolean) => void;
   addOrder: (input: NewOrderInput) => Promise<void>;
   advanceStatus: (id: string, currentStatus: number) => Promise<void>;
   deleteOrder: (id: string) => Promise<void>;
@@ -18,8 +20,22 @@ export const OrdersContext = createContext<OrdersContextType | undefined>(undefi
 export function OrdersProvider({ children }: { children: React.ReactNode }) {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAdvancedMode, setIsAdvancedMode] = useState(false); // Default Semplice
   const supabaseRef = useRef(createClient());
   const supabase = supabaseRef.current;
+
+  // Carica impostazione avanzata
+  useEffect(() => {
+    const saved = localStorage.getItem("pokeflow_advanced_mode");
+    if (saved !== null) {
+      setIsAdvancedMode(saved === "true");
+    }
+  }, []);
+
+  const setAdvancedMode = (val: boolean) => {
+    setIsAdvancedMode(val);
+    localStorage.setItem("pokeflow_advanced_mode", String(val));
+  };
 
   const fetchOrders = useCallback(async () => {
     const { data, error } = await supabase
@@ -49,7 +65,14 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
           if (payload.eventType === "UPDATE") {
             const updated = payload.new as Order;
             if (updated.status >= 3) {
-              setOrders((prev) => prev.filter((o) => o.id !== updated.id));
+              // Aggiorna lo stato immediatamente per far sapere ai componenti che è concluso
+              setOrders((prev) =>
+                prev.map((o) => (o.id === updated.id ? updated : o))
+              );
+              // Rimuovi dalla lista dopo 2 secondi per permettere l'animazione di uscita
+              setTimeout(() => {
+                setOrders((prev) => prev.filter((o) => o.id !== updated.id));
+              }, 2000);
             } else {
               setOrders((prev) =>
                 prev.map((o) => (o.id === updated.id ? updated : o))
@@ -72,7 +95,13 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
   }, [fetchOrders, supabase]);
 
   const addOrder = async (input: NewOrderInput) => {
-    const { error } = await supabase.from("orders").insert([input]);
+    // In modalità semplice, l'ordine va direttamente allo stato 2 (Ritira)
+    const initialStatus = isAdvancedMode ? 0 : 2;
+    
+    const { error } = await supabase.from("orders").insert([{
+      ...input,
+      status: input.status !== undefined ? input.status : initialStatus
+    }]);
     if (error) throw error;
   };
 
@@ -99,7 +128,15 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <OrdersContext.Provider value={{ orders, loading, addOrder, advanceStatus, deleteOrder }}>
+    <OrdersContext.Provider value={{ 
+      orders, 
+      loading, 
+      isAdvancedMode, 
+      setAdvancedMode, 
+      addOrder, 
+      advanceStatus, 
+      deleteOrder 
+    }}>
       {children}
     </OrdersContext.Provider>
   );

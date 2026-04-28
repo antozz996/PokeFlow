@@ -19,13 +19,15 @@ export default function NewOrderForm() {
     e.preventDefault();
     setError(null);
 
-    const num = parseInt(orderNum, 10);
-    if (!num || num < 1 || num > 999) {
-      setError("N° non valido");
+    // Validazione minima: almeno uno dei due deve essere presente
+    if (!orderNum && !customerName.trim()) {
+      setError("Inserire almeno un dato");
       return;
     }
-    if (!customerName.trim()) {
-      setError("Nome mancante");
+
+    const num = orderNum ? parseInt(orderNum, 10) : null;
+    if (orderNum && (isNaN(num!) || num! < 1 || num! > 999)) {
+      setError("N° non valido");
       return;
     }
 
@@ -33,7 +35,7 @@ export default function NewOrderForm() {
     try {
       await addOrder({
         order_num: num,
-        customer_name: customerName.trim(),
+        customer_name: customerName.trim() || null,
       });
       // Reset
       setOrderNum("");
@@ -77,7 +79,7 @@ export default function NewOrderForm() {
 
         <button
           type="submit"
-          disabled={loading || !orderNum || !customerName.trim()}
+          disabled={loading || (!orderNum && !customerName.trim())}
           className="bg-brand hover:bg-brand-light text-white rounded-lg px-4 py-2 text-sm font-bold flex items-center gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
           <Plus className="w-4 h-4" />

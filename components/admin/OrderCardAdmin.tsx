@@ -18,12 +18,14 @@ const cardStyles: Record<number, string> = {
   0: "bg-white",
   1: "bg-white",
   2: "bg-green-50 border border-status-ready/30",
+  3: "bg-green-50 border border-status-ready/30 opacity-70", // Stato finale prima della rimozione
 };
 
 const buttonStyles: Record<number, string> = {
   0: "bg-status-preso text-white shadow-md hover:brightness-110",
   1: "bg-status-prep text-white shadow-md hover:brightness-110",
   2: "bg-status-ready text-white shadow-md hover:brightness-110",
+  3: "hidden", // Nascondi il tasto quando consegnato
 };
 
 export default function OrderCardAdmin({ order, onAdvance, onDelete }: Props) {
