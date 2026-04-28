@@ -1,4 +1,7 @@
-// middleware.ts — Refresh token per Supabase SSR e protezione rotte
+// middleware.ts — Refresh token per Supabase SSR
+// La protezione delle rotte è gestita client-side per evitare
+// problemi di sincronizzazione cookie tra browser e server.
+
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -24,24 +27,8 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Refresh della sessione
-  const { data: { user } } = await supabase.auth.getUser();
-
-  const isLoginPage = request.nextUrl.pathname.startsWith("/admin/login");
-
-  // Se non c'è l'utente e non siamo sulla pagina di login, redirect a login
-  if (!user && !isLoginPage) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin/login";
-    return NextResponse.redirect(url);
-  }
-
-  // Se c'è l'utente e siamo sulla pagina di login, redirect alla dashboard
-  if (user && isLoginPage) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin";
-    return NextResponse.redirect(url);
-  }
+  // Mantieni la sessione aggiornata (refresh token)
+  await supabase.auth.getUser();
 
   return supabaseResponse;
 }
@@ -49,4 +36,5 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/admin/:path*"],
 };
+
 

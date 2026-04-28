@@ -25,8 +25,7 @@ export default function AdminPage() {
     router.push("/admin/login");
   };
 
-  // Lo stato di caricamento e la presenza dell'utente sono ora garantiti dal middleware.
-  // Manteniamo comunque un controllo minimo per la fase di idratazione client.
+  // Protezione client-side: se non autenticato, redirect al login
   if (authLoading) {
     return (
       <div className="min-h-screen bg-cream flex items-center justify-center">
@@ -35,7 +34,14 @@ export default function AdminPage() {
     );
   }
 
-  if (!user) return null;
+  if (!user) {
+    router.push("/admin/login");
+    return (
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <p className="text-wood-light font-body">Reindirizzamento al login...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-screen bg-cream overflow-hidden">
