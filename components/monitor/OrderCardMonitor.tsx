@@ -36,9 +36,16 @@ export default function OrderCardMonitor({ order, compactLevel = 0 }: Props) {
       <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
       
       <div className="relative z-10 flex flex-col items-center gap-1">
+        {/* Cassa Badge */}
+        {order.cassa && (
+          <div className="absolute -top-12 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 shadow-lg">
+            <span className="text-[10px] font-black text-white tracking-widest uppercase">Cassa {order.cassa}</span>
+          </div>
+        )}
+        
         {/* Numero Ordine */}
         <p className={cn("font-display leading-none text-white drop-shadow-md", numSizeClass)}>
-          #{order.order_num}
+          {order.order_num ? `#${order.order_num}` : '---'}
         </p>
         
         {/* Nome Cliente */}

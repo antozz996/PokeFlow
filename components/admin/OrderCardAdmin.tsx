@@ -40,9 +40,16 @@ export default function OrderCardAdmin({ order, onAdvance, onDelete }: Props) {
     >
       {/* Header: numero e tempo */}
       <div className="flex items-center justify-between pr-20">
-        <span className="font-display text-xl text-wood-dark">
-          #{order.order_num}
-        </span>
+        <div className="flex items-center gap-2">
+          {order.cassa && (
+            <span className="bg-brand text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-md shadow-sm">
+              {order.cassa}
+            </span>
+          )}
+          <span className="font-display text-xl text-wood-dark">
+            {order.order_num ? `#${order.order_num}` : '---'}
+          </span>
+        </div>
         <span className="text-xs text-wood-light font-body">
           {formatTime(order.created_at)} · {mins}min
         </span>

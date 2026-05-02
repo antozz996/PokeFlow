@@ -10,6 +10,7 @@ export default function NewOrderForm() {
   const { addOrder } = useOrders();
   const [orderNum, setOrderNum] = useState("");
   const [customerName, setCustomerName] = useState("");
+  const [cassa, setCassa] = useState<'A' | 'B' | 'C' | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
@@ -19,9 +20,9 @@ export default function NewOrderForm() {
     e.preventDefault();
     setError(null);
 
-    // Validazione minima: almeno uno dei due deve essere presente
-    if (!orderNum && !customerName.trim()) {
-      setError("Inserire almeno un dato");
+    // Validazione aggiornata: almeno un campo deve essere presente
+    if (!orderNum && !customerName.trim() && !cassa) {
+      setError("Inserire almeno un dato (Cassa, Numero o Nome)");
       return;
     }
 
@@ -36,8 +37,9 @@ export default function NewOrderForm() {
       await addOrder({
         order_num: num,
         customer_name: customerName.trim() || null,
+        cassa: cassa,
       });
-      // Reset
+      // Reset campi testo ma mantengo la cassa selezionata per velocità
       setOrderNum("");
       setCustomerName("");
       numInputRef.current?.focus();
@@ -52,8 +54,29 @@ export default function NewOrderForm() {
     <div className="bg-cream-dark border-b border-wood-pale/30 px-4 py-2">
       <form
         onSubmit={handleSubmit}
-        className="flex items-center gap-2 max-w-4xl mx-auto"
+        className="flex items-center gap-3 max-w-5xl mx-auto"
       >
+        {/* Selettore Cassa */}
+        <div className="flex bg-white/50 border border-wood-pale/30 rounded-lg p-0.5 shrink-0">
+          {(['A', 'B', 'C'] as const).map((id) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setCassa(cassa === id ? null : id)}
+              className={cn(
+                "w-9 h-9 rounded-md text-xs font-black transition-all flex items-center justify-center",
+                cassa === id
+                  ? "bg-brand text-white shadow-sm scale-105 z-10"
+                  : "text-wood-med hover:bg-wood-pale/20"
+              )}
+            >
+              {id}
+            </button>
+          ))}
+        </div>
+
+        <div className="h-8 w-[1px] bg-wood-pale/20 shrink-0 mx-1 hidden sm:block" />
+
         <div className="relative">
           <input
             ref={numInputRef}
@@ -79,7 +102,7 @@ export default function NewOrderForm() {
 
         <button
           type="submit"
-          disabled={loading || (!orderNum && !customerName.trim())}
+          disabled={loading || (!orderNum && !customerName.trim() && !cassa)}
           className="bg-brand hover:bg-brand-light text-white rounded-lg px-4 py-2 text-sm font-bold flex items-center gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
           <Plus className="w-4 h-4" />

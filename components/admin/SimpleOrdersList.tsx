@@ -37,23 +37,34 @@ export default function SimpleOrdersList() {
                   isDelivering ? "opacity-50 border-status-ready/30 scale-95" : "border-wood-pale/20"
                 )}
               >
-                <div className="flex items-center gap-6">
-                  {/* Numero */}
-                  {order.order_num && (
-                    <div className="bg-brand/5 rounded-xl p-3 min-w-[70px] text-center border border-brand/10">
-                      <p className="text-[10px] uppercase font-bold text-brand tracking-widest leading-none mb-1">
-                        Num
-                      </p>
-                      <p className="font-display text-3xl text-brand leading-none">
-                        {order.order_num}
-                      </p>
-                    </div>
-                  )}
+                  {/* Numero e Cassa */}
+                  <div className="flex items-center gap-3">
+                    {order.cassa && (
+                      <div className="bg-wood-dark text-white rounded-xl p-3 min-w-[50px] text-center shadow-md">
+                        <p className="text-[10px] uppercase font-bold text-white/60 tracking-widest leading-none mb-1">
+                          Cassa
+                        </p>
+                        <p className="font-display text-2xl leading-none">
+                          {order.cassa}
+                        </p>
+                      </div>
+                    )}
+                    {order.order_num && (
+                      <div className="bg-brand/5 rounded-xl p-3 min-w-[70px] text-center border border-brand/10">
+                        <p className="text-[10px] uppercase font-bold text-brand tracking-widest leading-none mb-1">
+                          Num
+                        </p>
+                        <p className="font-display text-3xl text-brand leading-none">
+                          {order.order_num}
+                        </p>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Nome e Tempo */}
                   <div>
                     <h3 className="font-body text-xl font-bold text-wood-dark leading-tight">
-                      {order.customer_name || "Senza nome"}
+                      {order.customer_name || (order.order_num || order.cassa ? "" : "Ordine vuoto")}
                     </h3>
                     <div className="flex items-center gap-2 text-wood-light mt-1">
                       <Clock className="w-3 h-3" />
@@ -62,7 +73,6 @@ export default function SimpleOrdersList() {
                       </p>
                     </div>
                   </div>
-                </div>
 
                 <div className="flex items-center gap-4">
                   {/* Tasto Elimina */}

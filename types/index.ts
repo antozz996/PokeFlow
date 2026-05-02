@@ -24,6 +24,7 @@ export interface Order {
   customer_name?: string | null;
   status: OrderStatus;
   notes?: string;
+  cassa?: 'A' | 'B' | 'C' | null;
   created_at: string;
   updated_at: string;
 }
@@ -33,4 +34,5 @@ export interface NewOrderInput {
   customer_name?: string | null;
   notes?: string;
   status?: OrderStatus; // Permette di specificare lo stato iniziale (es: 2 per Simple Mode)
+  cassa?: 'A' | 'B' | 'C' | null;
 }
