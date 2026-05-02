@@ -5,6 +5,7 @@
 import { useState, useRef, FormEvent } from "react";
 import { useOrders } from "@/hooks/useOrders";
 import { Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function NewOrderForm() {
   const { addOrder } = useOrders();
