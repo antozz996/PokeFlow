@@ -4,7 +4,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
 import { useOrders } from "@/hooks/useOrders";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/shared/Logo";
@@ -12,36 +11,12 @@ import KanbanBoard from "@/components/admin/KanbanBoard";
 import NewOrderForm from "@/components/admin/NewOrderForm";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 import SimpleOrdersList from "@/components/admin/SimpleOrdersList";
-import { LogOut, BarChart3, LayoutDashboard, Settings2, Unlock } from "lucide-react";
+import { BarChart3, LayoutDashboard, Settings2, Unlock } from "lucide-react";
 
 export default function AdminPage() {
-  const { user, loading: authLoading, signOut } = useAuth();
   const { isAdvancedMode, setAdvancedMode } = useOrders();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"orders" | "analytics">("orders");
-
-  const handleSignOut = async () => {
-    await signOut();
-    router.push("/admin/login");
-  };
-
-  // Protezione client-side: se non autenticato, redirect al login
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-cream flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand"></div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    router.push("/admin/login");
-    return (
-      <div className="min-h-screen bg-cream flex items-center justify-center">
-        <p className="text-wood-light font-body">Reindirizzamento al login...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col h-screen bg-cream overflow-hidden">
@@ -67,14 +42,6 @@ export default function AdminPage() {
           >
             {isAdvancedMode ? <Unlock className="w-3 h-3" /> : <Settings2 className="w-3 h-3" />}
             {isAdvancedMode ? "Sblocca Pro" : "Attiva Avanzato"}
-          </button>
-
-          <button
-            onClick={handleSignOut}
-            className="text-wood-pale hover:text-white transition-colors flex items-center gap-2"
-            title="Esci"
-          >
-            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </header>

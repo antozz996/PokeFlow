@@ -34,8 +34,8 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
   const getCompactLevel = (count: number) => {
     // In modalità semplice (colonna singola) possiamo permetterci più spazio
     if (!showLeftColumn) {
-      if (count <= 6) return 0;
-      if (count <= 10) return 1;
+      if (count <= 4) return 0;
+      if (count <= 8) return 1;
       return 2;
     }
     if (count <= 4) return 0;
@@ -46,10 +46,21 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
   const leftCompactLevel = getCompactLevel(leftColumn.length);
   const rightCompactLevel = getCompactLevel(pronti.length);
 
+  const getGridClass = (count: number) => {
+    if (showLeftColumn) return rightCompactLevel > 0 ? "space-y-2" : "space-y-4";
+    
+    // Layout dinamico in base al numero di elementi
+    if (count <= 2) return "grid grid-cols-1 sm:grid-cols-2 gap-8 items-start justify-center content-start max-w-5xl mx-auto w-full";
+    if (count <= 4) return "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 items-start justify-center content-start w-full";
+    if (count <= 8) return "grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 xl:gap-8 items-start justify-center content-start w-full";
+    if (count <= 12) return "grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6 items-start justify-center content-start w-full";
+    return "grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-3 sm:gap-4 items-start justify-center content-start w-full";
+  };
+
   return (
     <div className="monitor-fullscreen bg-brand-dark flex flex-col">
       {/* Header */}
-      <header className="bg-wood-dark h-16 px-6 flex items-center justify-between shrink-0">
+      <header className="bg-wood-dark h-16 px-4 sm:px-6 flex items-center justify-between shrink-0">
         <Logo size="md" />
         <h1 className="font-body text-cream/80 text-sm font-semibold tracking-widest uppercase hidden sm:block">
           Stato Ordini
@@ -60,11 +71,11 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
       {/* Colonne */}
       <div className={cn(
         "flex-1 min-h-0",
-        showLeftColumn ? "grid grid-cols-2" : "flex flex-col"
+        showLeftColumn ? "flex flex-col lg:grid lg:grid-cols-2" : "flex flex-col"
       )}>
         {/* Colonna Sinistra — In Preparazione (Mostrata solo in Pro) */}
         {showLeftColumn && (
-          <div className="flex flex-col min-h-0 border-r border-white/5">
+          <div className="flex flex-col min-h-0 lg:border-r border-b lg:border-b-0 border-white/5 flex-1 lg:flex-auto">
             <div className="bg-[#2A2420] py-2.5 px-4 shrink-0">
               <p className="text-brand-accent font-bold uppercase tracking-widest text-center">
                 ⏳ In Coda / Preparazione
@@ -97,10 +108,8 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
             </p>
           </div>
           <div className={cn(
-            "flex-1 overflow-y-auto p-8 custom-scroll",
-            !showLeftColumn 
-              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-start justify-center content-start" 
-              : (rightCompactLevel > 0 ? "space-y-2" : "space-y-4")
+            "flex-1 overflow-y-auto p-4 sm:p-8 custom-scroll",
+            getGridClass(pronti.length)
           )}>
             {pronti.length === 0 && (
               <div className={cn("flex items-center justify-center h-full", !showLeftColumn && "col-span-full py-20")}>
@@ -114,7 +123,7 @@ export default function MonitorLayout({ initialOrders }: MonitorLayoutProps) {
                 <div className="w-full max-w-[320px]">
                   <OrderCardMonitor
                     order={order}
-                    compactLevel={!showLeftColumn ? 0 : rightCompactLevel}
+                    compactLevel={rightCompactLevel}
                   />
                 </div>
               </div>
