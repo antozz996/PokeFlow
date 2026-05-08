@@ -3,7 +3,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useOrders } from "@/hooks/useOrders";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/shared/Logo";
@@ -15,7 +14,6 @@ import { BarChart3, LayoutDashboard, Settings2, Unlock } from "lucide-react";
 
 export default function AdminPage() {
   const { isAdvancedMode, setAdvancedMode } = useOrders();
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"orders" | "analytics">("orders");
 
   return (
