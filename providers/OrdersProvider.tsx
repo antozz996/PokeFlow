@@ -26,15 +26,23 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
 
   // Carica impostazione avanzata
   useEffect(() => {
-    const saved = localStorage.getItem("pokeflow_advanced_mode");
-    if (saved !== null) {
-      setIsAdvancedMode(saved === "true");
+    try {
+      const saved = localStorage.getItem("pokeflow_advanced_mode");
+      if (saved !== null) {
+        setIsAdvancedMode(saved === "true");
+      }
+    } catch (e) {
+      console.warn("LocalStorage not available");
     }
   }, []);
 
   const setAdvancedMode = (val: boolean) => {
     setIsAdvancedMode(val);
-    localStorage.setItem("pokeflow_advanced_mode", String(val));
+    try {
+      localStorage.setItem("pokeflow_advanced_mode", String(val));
+    } catch (e) {
+      console.warn("Could not save to LocalStorage");
+    }
   };
 
   const fetchOrders = useCallback(async () => {
@@ -106,6 +114,7 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
   };
 
   const advanceStatus = async (id: string, currentStatus: number) => {
+
     const nextStatus = currentStatus + 1;
     if (nextStatus > 3) return;
     const { error } = await supabase

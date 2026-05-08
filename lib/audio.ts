@@ -5,10 +5,16 @@ export const playNotificationSound = () => {
   if (typeof window === "undefined") return;
   
   try {
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioContext) return;
+    const AudioContextClass = (window as any).AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContextClass) return;
     
-    const ctx = new AudioContext();
+    const ctx = new AudioContextClass();
+    
+    // Per i browser che richiedono interazione (es. vecchi iOS), sblocca il contesto
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+
     const osc = ctx.createOscillator();
     const gainNode = ctx.createGain();
     
@@ -34,9 +40,11 @@ export const playNotificationSound = () => {
     
     // Cleanup
     setTimeout(() => {
-      ctx.close();
+      if (ctx.state !== 'closed') {
+        ctx.close();
+      }
     }, 1200);
   } catch (e) {
-    console.error("Audio playback failed", e);
+    console.warn("Audio playback failed or not supported", e);
   }
 };
