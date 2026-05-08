@@ -9,12 +9,6 @@ export const playNotificationSound = () => {
     if (!AudioContextClass) return;
     
     const ctx = new AudioContextClass();
-    
-    // Per i browser che richiedono interazione (es. vecchi iOS), sblocca il contesto
-    if (ctx.state === 'suspended') {
-      ctx.resume();
-    }
-
     const osc = ctx.createOscillator();
     const gainNode = ctx.createGain();
     
@@ -40,11 +34,9 @@ export const playNotificationSound = () => {
     
     // Cleanup
     setTimeout(() => {
-      if (ctx.state !== 'closed') {
-        ctx.close();
-      }
+      ctx.close();
     }, 1200);
   } catch (e) {
-    console.warn("Audio playback failed or not supported", e);
+    console.error("Audio playback failed", e);
   }
 };
