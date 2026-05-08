@@ -52,63 +52,68 @@ export default function NewOrderForm() {
   };
 
   return (
-    <div className="bg-cream-dark border-b border-wood-pale/30 px-4 py-2">
+    <div className="bg-cream-dark border-b border-wood-pale/30 px-3 sm:px-4 py-3 sm:py-2">
       <form
         onSubmit={handleSubmit}
-        className="flex items-center gap-3 max-w-5xl mx-auto"
+        className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 max-w-5xl mx-auto"
       >
-        {/* Selettore Cassa */}
-        <div className="flex bg-white/50 border border-wood-pale/30 rounded-lg p-0.5 shrink-0">
-          {(['A', 'B', 'C'] as const).map((id) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => setCassa(cassa === id ? null : id)}
-              className={cn(
-                "w-9 h-9 rounded-md text-xs font-black transition-all flex items-center justify-center",
-                cassa === id
-                  ? "bg-brand text-white shadow-sm scale-105 z-10"
-                  : "text-wood-med hover:bg-wood-pale/20"
-              )}
-            >
-              {id}
-            </button>
-          ))}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Selettore Cassa */}
+          <div className="flex bg-white/50 border border-wood-pale/30 rounded-lg p-0.5 shrink-0">
+            {(['A', 'B', 'C'] as const).map((id) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setCassa(cassa === id ? null : id)}
+                className={cn(
+                  "w-9 h-9 rounded-md text-xs font-black transition-all flex items-center justify-center",
+                  cassa === id
+                    ? "bg-brand text-white shadow-sm scale-105 z-10"
+                    : "text-wood-med hover:bg-wood-pale/20"
+                )}
+              >
+                {id}
+              </button>
+            ))}
+          </div>
+
+          <div className="h-6 w-[1px] bg-wood-pale/20 shrink-0 mx-0.5" />
+
+          {/* N° input */}
+          <div className="relative">
+            <input
+              ref={numInputRef}
+              type="number"
+              min="1"
+              max="999"
+              value={orderNum}
+              onChange={(e) => setOrderNum(e.target.value)}
+              placeholder="N°"
+              className="w-16 bg-white border border-wood-pale/50 rounded-lg px-3 py-2 text-sm font-body font-bold text-wood-dark focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-shadow"
+              disabled={loading}
+            />
+          </div>
         </div>
 
-        <div className="h-8 w-[1px] bg-wood-pale/20 shrink-0 mx-1 hidden sm:block" />
-
-        <div className="relative">
+        <div className="flex items-center gap-2 flex-1">
           <input
-            ref={numInputRef}
-            type="number"
-            min="1"
-            max="999"
-            value={orderNum}
-            onChange={(e) => setOrderNum(e.target.value)}
-            placeholder="N°"
-            className="w-16 bg-white border border-wood-pale/50 rounded-lg px-3 py-2 text-sm font-body font-bold text-wood-dark focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-shadow"
+            type="text"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            placeholder="Nome cliente..."
+            className="flex-1 bg-white border border-wood-pale/50 rounded-lg px-3 py-2 text-sm font-body text-wood-dark focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-shadow"
             disabled={loading}
           />
+
+          <button
+            type="submit"
+            disabled={loading || (!orderNum && !customerName.trim() && !cassa)}
+            className="bg-brand hover:bg-brand-light text-white rounded-lg px-4 py-2 text-sm font-bold flex items-center gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+          >
+            <Plus className="w-4 h-4" />
+            <span className="inline">Add</span>
+          </button>
         </div>
-
-        <input
-          type="text"
-          value={customerName}
-          onChange={(e) => setCustomerName(e.target.value)}
-          placeholder="Nome cliente..."
-          className="flex-1 bg-white border border-wood-pale/50 rounded-lg px-3 py-2 text-sm font-body text-wood-dark focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-shadow"
-          disabled={loading}
-        />
-
-        <button
-          type="submit"
-          disabled={loading || (!orderNum && !customerName.trim() && !cassa)}
-          className="bg-brand hover:bg-brand-light text-white rounded-lg px-4 py-2 text-sm font-bold flex items-center gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
-        >
-          <Plus className="w-4 h-4" />
-          <span className="hidden sm:inline">Add</span>
-        </button>
 
         {error && (
           <span className="absolute top-full left-4 text-xs text-red-500 mt-1 font-body">
