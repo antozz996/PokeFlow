@@ -41,10 +41,10 @@ export default function OrderCardMonitor({ order, compactLevel = 0 }: Props) {
           {order.order_num ? `#${order.order_num}` : '---'}
         </p>
         
-        {/* Nome Cliente - Altezza fissa per mantenere la card uniforme */}
-        <div className="h-8 flex items-center justify-center">
+        {/* Nome Cliente - Spazio flessibile ma centrato per mantenere la card uniforme */}
+        <div className="flex-1 flex items-center justify-center min-h-[1.5rem] w-full px-2">
           {order.customer_name && (
-            <p className={cn("font-body font-bold text-white/95 uppercase tracking-wide truncate max-w-[90%]", nameSizeClass)}>
+            <p className={cn("font-body font-bold text-white/95 uppercase tracking-wide leading-tight", nameSizeClass)}>
               {order.customer_name}
             </p>
           )}
